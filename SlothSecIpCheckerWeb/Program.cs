@@ -8,6 +8,7 @@ builder.Services.AddHttpClient("ipchecker", client =>
     client.BaseAddress = new Uri("https://api.abuseipdb.com/api/v2/");
     client.DefaultRequestHeaders.Add("Key", "YOUR_REAL_API_KEY");
     client.DefaultRequestHeaders.Add("Accept", "application/json");
+    client.DefaultRequestHeaders.Add("User-Agent", "SlothSec-IP-Checker");
 });
 
 var app = builder.Build();
