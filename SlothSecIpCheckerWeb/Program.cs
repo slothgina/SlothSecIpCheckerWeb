@@ -3,6 +3,13 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+builder.Services.AddHttpClient("ipchecker", client =>
+{
+    client.BaseAddress = new Uri("https://api.abuseipdb.com/api/v2/");
+    client.DefaultRequestHeaders.Add("Key", "YOUR_REAL_API_KEY");
+    client.DefaultRequestHeaders.Add("Accept", "application/json");
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

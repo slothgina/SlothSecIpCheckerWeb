@@ -1,24 +1,45 @@
-using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using System.Net.Http.Json;
 using SlothSecIpCheckerWeb.Models;
-
-namespace SlothSecIpCheckerWeb.Controllers;
 
 public class HomeController : Controller
 {
+    private readonly HttpClient _http;
+
+    public HomeController(IHttpClientFactory factory)
+    {
+        _http = factory.CreateClient("ipchecker");
+    }
+
     public IActionResult Index()
     {
-        return View();
+        return View(new AbuseIpReport());
     }
 
-    public IActionResult Privacy()
+    [HttpPost]
+    public async Task<IActionResult> CheckIp(string ip)
     {
-        return View();
-    }
+        var report = await _http.GetFromJsonAsync<AbuseIpReport>($"check?ip={ip}");
 
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public IActionResult Error()
-    {
-        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        int score = report!.data!.abuseConfidenceScore;
+
+        if (score <= 5)
+        {
+            ViewBag.RiskLabel = "Low";
+            ViewBag.RiskColor = "#2ecc71";
+        }
+        else if (score <= 30)
+        {
+            ViewBag.RiskLabel = "Medium";
+            ViewBag.RiskColor = "#f1c40f";
+        }
+        else
+        {
+            ViewBag.RiskLabel = "High";
+            ViewBag.RiskColor = "#e74c3c";
+        }
+
+        return View("Index", report);
     }
 }
+

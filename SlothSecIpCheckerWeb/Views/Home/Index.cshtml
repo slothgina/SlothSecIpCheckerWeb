@@ -1,8 +1,18 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model SlothSecIpCheckerWeb.Models.AbuseIpReport
+
+<h1>🦥 SlothSec IP Checker</h1>
+
+<form method="post" asp-action="CheckIp">
+    <input type="text" name="ip" placeholder="Enter IP Address" />
+    <button type="submit">Check IP</button>
+</form>
+
+@if (Model?.data?.ipAddress != null && Model.data.ipAddress != "")
+{
+    <h2>Results for @Model.data.ipAddress</h2>
+    <p>Risk Score: @Model.data.abuseConfidenceScore</p>
+    <p>ISP: @Model.data.isp</p>
+    <p>Domain: @Model.data.domain</p>
+    <p>Country: @Model.data.countryCode</p>
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
