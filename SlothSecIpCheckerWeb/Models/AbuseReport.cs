@@ -18,3 +18,4 @@ public class Data
     public int numDistinctUsers { get; set; }
     public string lastReportedAt { get; set; } = "";
 }
+
