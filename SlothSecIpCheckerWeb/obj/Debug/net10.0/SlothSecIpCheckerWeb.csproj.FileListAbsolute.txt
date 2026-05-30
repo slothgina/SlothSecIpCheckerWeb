@@ -96,3 +96,5 @@ C:\Users\ginag\SlothSecIpCheckerWeb\SlothSecIpCheckerWeb\obj\Debug\net10.0\refin
 C:\Users\ginag\SlothSecIpCheckerWeb\SlothSecIpCheckerWeb\obj\Debug\net10.0\SlothSecIpCheckerWeb.pdb
 C:\Users\ginag\SlothSecIpCheckerWeb\SlothSecIpCheckerWeb\obj\Debug\net10.0\SlothSecIpCheckerWeb.genruntimeconfig.cache
 C:\Users\ginag\SlothSecIpCheckerWeb\SlothSecIpCheckerWeb\obj\Debug\net10.0\ref\SlothSecIpCheckerWeb.dll
+C:\Users\ginag\SlothSecIpCheckerWeb\SlothSecIpCheckerWeb\obj\Debug\net10.0\compressed\lidrxnkbj8-{0}-5ipweew5fc-5ipweew5fc.gz
+C:\Users\ginag\SlothSecIpCheckerWeb\SlothSecIpCheckerWeb\obj\Debug\net10.0\compressed\l6xng8duin-{0}-6mo8e27red-6mo8e27red.gz
