@@ -3,6 +3,9 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+// REGISTER YOUR SERVICE (this was missing)
+builder.Services.AddScoped<IAbuseIpService, AbuseIpService>();
+
 // Configure HttpClient for AbuseIPDB
 builder.Services.AddHttpClient("ipchecker", client =>
 {
