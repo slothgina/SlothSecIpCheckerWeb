@@ -3,10 +3,19 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+// Configure HttpClient for AbuseIPDB
 builder.Services.AddHttpClient("ipchecker", client =>
 {
     client.BaseAddress = new Uri("https://api.abuseipdb.com/api/v2/");
-    client.DefaultRequestHeaders.Add("Key", "a6f6b79070986ee599ee1253af63e16db7628e6dc456daf91dc7c4f25fddf9bea9832a10b1bc3866");
+
+    // Pull API key from environment variable
+    var apiKey = Environment.GetEnvironmentVariable("ABUSEIPDB_API_KEY");
+
+    if (!string.IsNullOrEmpty(apiKey))
+    {
+        client.DefaultRequestHeaders.Add("Key", apiKey);
+    }
+
     client.DefaultRequestHeaders.Add("Accept", "application/json");
     client.DefaultRequestHeaders.Add("User-Agent", "SlothSec-IP-Checker");
 });
@@ -17,13 +26,11 @@ var app = builder.Build();
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
 app.UseHttpsRedirection();
 app.UseRouting();
-
 app.UseAuthorization();
 
 app.MapStaticAssets();
@@ -32,6 +39,5 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}")
     .WithStaticAssets();
-
 
 app.Run();
