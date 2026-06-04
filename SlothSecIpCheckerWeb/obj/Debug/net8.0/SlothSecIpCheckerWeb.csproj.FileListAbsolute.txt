@@ -32,3 +32,4 @@ C:\Users\ginag\SlothSecIpCheckerWeb\SlothSecIpCheckerWeb\obj\Debug\net8.0\refint
 C:\Users\ginag\SlothSecIpCheckerWeb\SlothSecIpCheckerWeb\obj\Debug\net8.0\SlothSecIpCheckerWeb.pdb
 C:\Users\ginag\SlothSecIpCheckerWeb\SlothSecIpCheckerWeb\obj\Debug\net8.0\SlothSecIpCheckerWeb.genruntimeconfig.cache
 C:\Users\ginag\SlothSecIpCheckerWeb\SlothSecIpCheckerWeb\obj\Debug\net8.0\ref\SlothSecIpCheckerWeb.dll
+C:\Users\ginag\SlothSecIpCheckerWeb\SlothSecIpCheckerWeb\bin\Debug\net8.0\Data\reported.json
