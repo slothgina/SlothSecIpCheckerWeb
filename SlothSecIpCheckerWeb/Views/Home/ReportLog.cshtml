@@ -1,0 +1,41 @@
+@model List<SlothSecIpCheckerWeb.Models.ReportLogEntry>
+
+<h2>🦥 Reported IP Log</h2>
+
+<table class="log-table">
+    <tr>
+        <th>IP</th>
+        <th>Category</th>
+        <th>Comment</th>
+        <th>Timestamp (UTC)</th>
+    </tr>
+
+@foreach (var entry in Model)
+{
+    <tr>
+        <td>@entry.Ip</td>
+        <td>@entry.Category</td>
+        <td>@entry.Comment</td>
+        <td>@entry.Timestamp</td>
+    </tr>
+}
+</table>
+
+<style>
+.log-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.log-table th {
+    background: #333;
+    color: white;
+    padding: 8px;
+}
+
+.log-table td {
+    padding: 8px;
+    border-bottom: 1px solid #ccc;
+}
+</style>

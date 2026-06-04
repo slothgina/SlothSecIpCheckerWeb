@@ -81,7 +81,7 @@ public class HomeController : Controller
     {
         if (string.IsNullOrWhiteSpace(ip))
         {
-            ViewBag.ReportError = "No IP address provided.";
+            TempData["ReportError"] = "No IP address provided.";
             return RedirectToAction("Index");
         }
 
@@ -96,24 +96,66 @@ public class HomeController : Controller
 
         try
         {
-            var response = await _http.PostAsync("report", content);
+        var response = await _http.PostAsync("report", content);
 
-            if (response.IsSuccessStatusCode)
-            {
-                TempData["ReportSuccess"] = $"Successfully reported {ip} to AbuseIPDB.";
-            }
-            else
-            {
-                TempData["ReportError"] = $"Failed to report {ip}. Status: {response.StatusCode}";
-            }
-        }
-        catch (Exception ex)
+        if (response.IsSuccessStatusCode)
         {
-            TempData["ReportError"] = $"Error reporting IP: {ex.Message}";
-        }
+            TempData["ReportSuccess"] = $"Successfully reported {ip} to AbuseIPDB.";
 
-        return RedirectToAction("Index");
+            // ⭐ LOGGING STARTS HERE ⭐
+            var logPath = Path.Combine(Directory.GetCurrentDirectory(), "Data", "reported.json");
+
+            List<ReportLogEntry> log = new();
+
+            if (System.IO.File.Exists(logPath))
+            {
+                var json = await System.IO.File.ReadAllTextAsync(logPath);
+                log = System.Text.Json.JsonSerializer.Deserialize<List<ReportLogEntry>>(json) ?? new();
+            }
+
+            log.Add(new ReportLogEntry
+            {
+                Ip = ip,
+                Category = category,
+                Comment = comment ?? "",
+                Timestamp = DateTime.UtcNow
+            });
+
+            var updatedJson = System.Text.Json.JsonSerializer.Serialize(
+                log,
+                new System.Text.Json.JsonSerializerOptions { WriteIndented = true }
+            );
+
+            await System.IO.File.WriteAllTextAsync(logPath, updatedJson);
+            // ⭐ LOGGING ENDS HERE ⭐
+        }
+        else
+        {
+            TempData["ReportError"] = $"Failed to report {ip}. Status: {response.StatusCode}";
+        }
     }
+    catch (Exception ex)
+    {
+        TempData["ReportError"] = $"Error reporting IP: {ex.Message}";
+    }
+
+    return RedirectToAction("Index");
+}
+    public IActionResult ReportLog()
+{
+    var logPath = Path.Combine(Directory.GetCurrentDirectory(), "Data", "reported.json");
+
+    if (!System.IO.File.Exists(logPath))
+        return View(new List<ReportLogEntry>());
+
+    var json = System.IO.File.ReadAllText(logPath);
+    var log = System.Text.Json.JsonSerializer.Deserialize<List<ReportLogEntry>>(json)
+              ?? new List<ReportLogEntry>();
+
+    return View(log.OrderByDescending(x => x.Timestamp).ToList());
+}
+
+
 }
 
 

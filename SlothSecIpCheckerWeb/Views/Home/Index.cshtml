@@ -77,6 +77,24 @@
             </div>
 
             <p class="meter-label">Risk Level: @ViewBag.RiskLabel (@score)</p>
+        
+        <a href="/Home/ReportLog" class="log-link">View Reported IP Log</a>
+
+        <style>
+        .log-link {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 8px 14px;
+            background: #34495e;
+            color: white;
+            border-radius: 6px;
+            text-decoration: none;
+        }
+        .log-link:hover {
+            background: #2c3e50;
+        }
+        </style>
+
         </div>
     </div>
 }
