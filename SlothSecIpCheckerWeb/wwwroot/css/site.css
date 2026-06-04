@@ -17,9 +17,19 @@ html {
   min-height: 100%;
 }
 
-body {
-  margin-bottom: 60px;
+html, body {
+    height: 100%;
 }
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+.sloth-footer {
+    margin-top: auto;
+}
+
 
 .report-btn {
     background: #e74c3c;
