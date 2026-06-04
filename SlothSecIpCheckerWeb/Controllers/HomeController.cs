@@ -75,7 +75,47 @@ public class HomeController : Controller
             return View("Index", new AbuseIpReport());
         }
     }
+
+    [HttpPost]
+    public async Task<IActionResult> ReportIp(string ip, int category, string comment)
+    {
+        if (string.IsNullOrWhiteSpace(ip))
+        {
+            ViewBag.ReportError = "No IP address provided.";
+            return RedirectToAction("Index");
+        }
+
+        var payload = new Dictionary<string, string>
+        {
+            { "ip", ip },
+            { "categories", category.ToString() },
+            { "comment", comment ?? "" }
+        };
+
+        var content = new FormUrlEncodedContent(payload);
+
+        try
+        {
+            var response = await _http.PostAsync("report", content);
+
+            if (response.IsSuccessStatusCode)
+            {
+                TempData["ReportSuccess"] = $"Successfully reported {ip} to AbuseIPDB.";
+            }
+            else
+            {
+                TempData["ReportError"] = $"Failed to report {ip}. Status: {response.StatusCode}";
+            }
+        }
+        catch (Exception ex)
+        {
+            TempData["ReportError"] = $"Error reporting IP: {ex.Message}";
+        }
+
+        return RedirectToAction("Index");
+    }
 }
+
 
 
 

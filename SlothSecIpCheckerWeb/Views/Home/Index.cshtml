@@ -7,6 +7,24 @@
     <button type="submit">Check IP</button>
 </form>
 
+<form method="post" asp-action="ReportIp">
+    <input type="hidden" name="ip" value="@Model.data.ipAddress" />
+
+    <label>Category:</label>
+    <select name="category">
+        <option value="18">SSH Brute-Force</option>
+        <option value="14">Port Scan</option>
+        <option value="15">Web App Attack</option>
+        <option value="21">DDoS Attack</option>
+        <option value="22">Bot Activity</option>
+    </select>
+
+    <label>Comment:</label>
+    <input type="text" name="comment" placeholder="Optional comment" />
+
+    <button type="submit" class="report-btn">Report IP</button>
+</form>
+
 @if (Model?.data?.ipAddress != null && Model.data.ipAddress != "")
 {
     <div class="results-box">
