@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Net;
 using System.Net.Http.Json;
 using SlothSecIpCheckerWeb.Models;
+using SlothSecIpCheckerWeb.Helpers;
 
 public class HomeController : Controller
 {
@@ -30,7 +30,11 @@ public class HomeController : Controller
                 return View("Index", new AbuseIpReport());
             }
 
-            // Encode IPv6 (colons break URLs)
+            // Parse + classify BEFORE encoding
+            var ipObj = IPAddress.Parse(ip);
+            ViewBag.IpType = IpClassifier.ClassifyIp(ipObj);
+
+            // Encode IPv6
             var encodedIp = Uri.EscapeDataString(ip);
 
             // Call AbuseIPDB
@@ -65,13 +69,14 @@ public class HomeController : Controller
 
             return View("Index", report);
         }
-        catch (Exception)
+        catch
         {
             ViewBag.Error = "An unexpected error occurred while checking the IP.";
             return View("Index", new AbuseIpReport());
         }
     }
 }
+
 
 
 

@@ -10,6 +10,12 @@
 @if (Model?.data?.ipAddress != null && Model.data.ipAddress != "")
 {
     <h2>Results for @Model.data.ipAddress</h2>
+
+    @if (ViewBag.IpType != null)
+    {
+        <p><strong>Address Type:</strong> @ViewBag.IpType</p>
+    }
+    
     <p>Risk Score: @Model.data.abuseConfidenceScore</p>
     <p>ISP: @Model.data.isp</p>
     <p>Domain: @Model.data.domain</p>
