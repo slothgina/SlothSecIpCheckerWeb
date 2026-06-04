@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Net;
 using System.Net.Http.Json;
 using SlothSecIpCheckerWeb.Models;
 
@@ -21,12 +23,21 @@ public class HomeController : Controller
     {
         try
         {
-            // Correct AbuseIPDB endpoint + correct parameter names
+            // Validate IPv4 + IPv6
+            if (!IPAddress.TryParse(ip, out _))
+            {
+                ViewBag.Error = "Invalid IPv4 or IPv6 address.";
+                return View("Index", new AbuseIpReport());
+            }
+
+            // Encode IPv6 (colons break URLs)
+            var encodedIp = Uri.EscapeDataString(ip);
+
+            // Call AbuseIPDB
             var report = await _http.GetFromJsonAsync<AbuseIpReport>(
-                $"check?ipAddress={ip}&maxAgeInDays=90"
+                $"check?ipAddress={encodedIp}&maxAgeInDays=90"
             );
 
-            // If API returned an error JSON, report.data will be null
             if (report?.data == null)
             {
                 ViewBag.Error = "The API returned no data. Check the IP address or your API key.";
@@ -61,6 +72,9 @@ public class HomeController : Controller
         }
     }
 }
+
+
+
 
 
 
