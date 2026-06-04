@@ -112,3 +112,16 @@ button {
 button:hover {
     background: #27ae60;
 }
+
+.sloth-footer {
+    text-align: center;
+    padding: 20px;
+    margin-top: 40px;
+    color: #aaa;
+    font-size: 0.9rem;
+    opacity: 0.85;
+}
+
+.sloth-footer strong {
+    color: #2ecc71;
+}
