@@ -9,16 +9,58 @@
 
 @if (Model?.data?.ipAddress != null && Model.data.ipAddress != "")
 {
-    <h2>Results for @Model.data.ipAddress</h2>
+    <div class="results-box">
+        <h2>Results for @Model.data.ipAddress</h2>
 
-    @if (ViewBag.IpType != null)
-    {
-        <p><strong>Address Type:</strong> @ViewBag.IpType</p>
-    }
-    
-    <p>Risk Score: @Model.data.abuseConfidenceScore</p>
-    <p>ISP: @Model.data.isp</p>
-    <p>Domain: @Model.data.domain</p>
-    <p>Country: @Model.data.countryCode</p>
+        @if (ViewBag.IpType != null)
+        {
+            <p><strong>Address Type:</strong> @ViewBag.IpType</p>
+        }
+
+        <p><strong>ISP:</strong> @Model.data!.isp</p>
+        <p><strong>Domain:</strong> @Model.data!.domain</p>
+        <p><strong>Country:</strong> @Model.data!.countryCode</p>
+
+        <p><strong>Risk Score:</strong> @Model.data!.abuseConfidenceScore</p>
+
+        @* -----------------------------
+           SlothSec Risk Meter Logic
+           ----------------------------- *@
+        @{
+            int score = Model.data!.abuseConfidenceScore;
+
+            string slothFace = score switch
+            {
+                <= 5 => "🦥",
+                <= 30 => "😐🦥",
+                <= 60 => "😠🦥",
+                _ => "🔥😡🦥🔥"
+            };
+
+            string barColor = score switch
+            {
+                <= 5 => "#2ecc71",
+                <= 30 => "#f1c40f",
+                <= 60 => "#e67e22",
+                _ => "#e74c3c"
+            };
+
+            string barWidth = $"{score}%";
+        }
+
+        @* -----------------------------
+           SlothSec Risk Meter UI
+           ----------------------------- *@
+        <div class="risk-meter">
+            <div class="sloth-face">@slothFace</div>
+
+            <div class="meter-bar">
+                <div class="meter-fill" style="width:@barWidth; background:@barColor;"></div>
+            </div>
+
+            <p class="meter-label">Risk Level: @ViewBag.RiskLabel (@score)</p>
+        </div>
+    </div>
 }
+
 
