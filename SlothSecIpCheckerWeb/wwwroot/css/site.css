@@ -26,11 +26,6 @@ body {
     flex-direction: column;
 }
 
-.sloth-footer {
-    margin-top: auto;
-}
-
-
 .report-btn {
     background: #e74c3c;
     color: white;
@@ -126,7 +121,7 @@ button:hover {
 .sloth-footer {
     text-align: center;
     padding: 20px;
-    margin-top: 40px;
+    margin-top: auto;
     color: #aaa;
     font-size: 0.9rem;
     opacity: 0.85;
@@ -134,4 +129,25 @@ button:hover {
 
 .sloth-footer strong {
     color: #2ecc71;
+}
+
+.sloth-footer {
+    text-align: center;
+    padding: 20px;
+    margin-top: 40px;
+    color: #aaa;
+    font-size: 0.9rem;
+    opacity: 0.85;
+    position: relative;
+}
+
+.sloth-footer::before {
+    content: "🦥";
+    position: absolute;
+    font-size: 80px;
+    opacity: 0.08;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    pointer-events: none;
 }
