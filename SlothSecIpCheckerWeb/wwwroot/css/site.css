@@ -26,6 +26,10 @@ body {
     flex-direction: column;
 }
 
+.sloth-footer {
+    margin-top: auto;
+}
+
 .report-btn {
     background: #e74c3c;
     color: white;
